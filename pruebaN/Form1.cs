@@ -30,10 +30,10 @@ namespace pruebaN
 
         private void createButton_Click(object sender, EventArgs e)
         {
-            string languageName = Interaction.InputBox("Nombre del lenguaje: ", "Agregar lenguaje de programación");
+            string languageName = Interaction.InputBox("Language name: ", "Add programming language");
             Language newLanguage = new Language(languageName);
             graphClient.Cypher
-                .Merge("(lan:Language { Name: {name} })")
+                .Merge("(lan:Language {name: {name}})")
                 .OnCreate()
                 .Set("lan = {newLanguage}")
                 .WithParams(new {
@@ -75,19 +75,36 @@ namespace pruebaN
 
             if (f2.ShowDialog() == DialogResult.OK)
             {
+                string option = f2.getComboText();
+                switch (option)
+                {
+                    case "Modify parents":
+                        using (Form3 f3 = new Form3(graphClient))
+                        {
+                            f3.ShowDialog(this);
+                        }
+
+                        //var tomHanks =
+                        // graphClient.Cypher
+                        //    .Match("(lan:Language)")
+                        //    .Return(lan => lan.As<Language>().name)
+                        //    .Results;
+                        //foreach (var person in tomHanks)
+                        //    MessageBox.Show("" + person);
+                        break;
+                    case "Change a name":
+                        break;
+                }
             }
         }
-
+        
         private void deleteButton_Click(object sender, EventArgs e)
         {
             string languageName = Interaction.InputBox("Nombre del lenguaje: ", "Eliminar lenguaje de programación");
             graphClient.Cypher
                 .OptionalMatch("(lan:Language)")
                 .Where("lan.name = {languageName}")
-                .WithParams(new
-                {
-                    languageName = languageName
-                })
+                .WithParam("languageName", languageName)
                 .Delete("lan")
                 .ExecuteWithoutResults();
         }
@@ -96,6 +113,11 @@ namespace pruebaN
     public class Language
     {
         public string name;
+
+        public Language()
+        {
+
+        }
 
         public Language(string name)
         {
@@ -111,6 +133,13 @@ namespace pruebaN
         {
             this.name = name;
         }
+    }
+
+    public class Result
+    {
+        public Language lan;
+
+        public Language Language { get; internal set; }
     }
 
 }

@@ -33,5 +33,7 @@ C:\Users\RIKI\Documents\Visual Studio 2015\Projects\pruebaN\pruebaN\bin\Debug\Ne
 C:\Users\RIKI\Documents\Visual Studio 2015\Projects\pruebaN\pruebaN\bin\Debug\Neo4jClient.pdb
 C:\Users\RIKI\Documents\Visual Studio 2015\Projects\pruebaN\pruebaN\bin\Debug\Neo4jClient.xml
 C:\Users\RIKI\Documents\Visual Studio 2015\Projects\pruebaN\pruebaN\bin\Debug\Newtonsoft.Json.xml
-C:\Users\RIKI\Documents\Visual Studio 2015\Projects\pruebaN\pruebaN\obj\Debug\pruebaN.Form1.resources
 C:\Users\RIKI\Documents\Visual Studio 2015\Projects\pruebaN\pruebaN\obj\Debug\pruebaN.Form2.resources
+C:\Users\RIKI\Documents\Visual Studio 2015\Projects\pruebaN\pruebaN\obj\Debug\pruebaN.Form3.resources
+C:\Users\RIKI\Documents\Visual Studio 2015\Projects\pruebaN\pruebaN\obj\Debug\pruebaN.Form1.resources
+C:\Users\RIKI\Documents\Visual Studio 2015\Projects\pruebaN\pruebaN\obj\Debug\pruebaN.Form4.resources

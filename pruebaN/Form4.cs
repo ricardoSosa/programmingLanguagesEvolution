@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace pruebaN
 {
-    public partial class Form2 : Form
+    public partial class Form4 : Form
     {
-        public Form2()
+        public Form4()
         {
             InitializeComponent();
-        }
-
-        public string getComboText()
-        {
-            return this.optionComboBox.Text;
         }
     }
 }

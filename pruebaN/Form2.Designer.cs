@@ -38,8 +38,7 @@
             // 
             this.optionComboBox.FormattingEnabled = true;
             this.optionComboBox.Items.AddRange(new object[] {
-            "Define a language father",
-            "Delete a language father",
+            "Modify parents",
             "Change name"});
             this.optionComboBox.Location = new System.Drawing.Point(99, 87);
             this.optionComboBox.Name = "optionComboBox";
