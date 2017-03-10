@@ -53,6 +53,7 @@
             this.readButton.TabIndex = 1;
             this.readButton.Text = "Read";
             this.readButton.UseVisualStyleBackColor = true;
+            this.readButton.Click += new System.EventHandler(this.readButton_Click);
             // 
             // updateButton
             // 

@@ -38,22 +38,24 @@ namespace pruebaN
         private void addPButton_Click(object sender, EventArgs e)
         {
             string newParent = Interaction.InputBox("Introduce the new parent's name: ", "Add new parent");
-            //Validating the parent's existence.
-            var selected = graphClient.Cypher
-                .OptionalMatch("(lang:Language)")
-                .Where("lang.name = {name}")
-                .WithParam("name", newParent)
-                .Return(lang => lang.As<Language>().name)
-                .Results
-                .Single();
-            if(selected == null)
+            if(newParent != "")
             {
-                MessageBox.Show("Language does not exist");
-            }
-            else
-            {
-                //Validating if it's an actual parent.
-                    if(this.parentsList.Items.Contains(newParent))
+                //Validating the parent's existence.
+                var selected = graphClient.Cypher
+                    .OptionalMatch("(lang:Language)")
+                    .Where("lang.name = {name}")
+                    .WithParam("name", newParent)
+                    .Return(lang => lang.As<Language>().name)
+                    .Results
+                    .Single();
+                if (selected == null)
+                {
+                    MessageBox.Show('"' + newParent + '"' + " does not exist.");
+                }
+                else
+                {
+                    //Validating if it's an actual parent.
+                    if (this.parentsList.Items.Contains(newParent))
                     {
                         MessageBox.Show('"' + newParent + '"' + " is an actual parent.");
                     }
@@ -69,7 +71,8 @@ namespace pruebaN
                             .ExecuteWithoutResults();
                         this.parentsList.Items.Add(newParent);
                     }
-            }
+                }
+            }    
         }
 
         private void deletePButton_Click(object sender, EventArgs e)
@@ -109,37 +112,41 @@ namespace pruebaN
 
         private void selectButton_Click(object sender, EventArgs e)
         {
-            selectedLanguage = this.selectTextField.Text;
-            //Validation
-            var selected = graphClient.Cypher
-                .OptionalMatch("(lang:Language)")
-                .Where("lang.name = {name}")
-                .WithParam("name", selectedLanguage)
-                .Return(lang => lang.As<Language>().name)
-                .Results
-                .Single();
-            if(selected == null) {
-                this.selectedLabel.Text = "Parents:";
-                this.parentsList.Items.Clear();
-                this.addPButton.Enabled = false;
-                this.deletePButton.Enabled = false;
-                MessageBox.Show('"' + selectedLanguage + '"' + " does not exist.");
-            }
-            else
+            if(this.selectTextField.Text != "")
             {
-                var parentsList = graphClient.Cypher
-                                .Match("(lang:Language)-[:DERIVED_FROM]->(parent:Language)")
-                                .Where("lang.name = {name}")
-                                .WithParam("name", selectedLanguage)
-                                .Return(parent => parent.As<Language>().name)
-                                .Results.ToList();
+                selectedLanguage = this.selectTextField.Text;
+                //Validation
+                var selected = graphClient.Cypher
+                    .OptionalMatch("(lang:Language)")
+                    .Where("lang.name = {name}")
+                    .WithParam("name", selectedLanguage)
+                    .Return(lang => lang.As<Language>().name)
+                    .Results
+                    .Single();
+                if (selected == null)
+                {
+                    this.selectedLabel.Text = "Parents:";
+                    this.parentsList.Items.Clear();
+                    this.addPButton.Enabled = false;
+                    this.deletePButton.Enabled = false;
+                    MessageBox.Show('"' + selectedLanguage + '"' + " does not exist.");
+                }
+                else
+                {
+                    List<string> parentsList = graphClient.Cypher
+                                    .Match("(lang:Language)-[:DERIVED_FROM]->(parent:Language)")
+                                    .Where("lang.name = {name}")
+                                    .WithParam("name", selectedLanguage)
+                                    .Return(parent => parent.As<Language>().name)
+                                    .Results.ToList();
 
-                this.selectedLabel.Text = '"' + selectedLanguage + '"' + " parents:";
-                this.parentsList.Items.Clear();
-                foreach (var parent in parentsList)
-                    this.parentsList.Items.Add(parent);
-                this.addPButton.Enabled = true;
-                this.deletePButton.Enabled = true;
+                    this.selectedLabel.Text = '"' + selectedLanguage + '"' + " parents:";
+                    this.parentsList.Items.Clear();
+                    foreach (string parent in parentsList)
+                        this.parentsList.Items.Add(parent);
+                    this.addPButton.Enabled = true;
+                    this.deletePButton.Enabled = true;
+                }
             }
         }
 
