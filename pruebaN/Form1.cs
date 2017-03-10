@@ -41,27 +41,6 @@ namespace pruebaN
                     newLanguage
                 })
                 .ExecuteWithoutResults();
-            //var tomHanks =
-            //    graphClient.Cypher.Match("(person:Person)")
-            //    .Where((Person person) => person.name == "Tom Hanks")
-            //    .Return(person => person.As<Person>())
-            //    .Results
-            //    .Single();
-
-            //string actorsName = "Tom Hanks";
-            //List<string> cocoActors =
-            //graphClient.Cypher
-            //.Match("(tom:Person {name:{nameParam}})-[:ACTED_IN]->(m)<-[:ACTED_IN]-(coActor:Person),(coActor)-[:ACTED_IN]->(m2)<-[:ACTED_IN]-(cocoActor:Person)")
-            //.WithParam("nameParam", actorsName)
-            //.Where("NOT (tom)-[:ACTED_IN]->(m2)")
-            //.ReturnDistinct(cocoActor => cocoActor.As<Person>().name)
-            //.Results.ToList();
-
-            //MessageBox.Show(cocoActors[1]);
-            //MessageBox.Show(cocoActors[2]);
-
-            //graphClient.Cypher
-            //    .Create("INDEX ON :Animal(name)").ExecuteWithoutResults();
         }
 
         private void readButton_Click(object sender, EventArgs e)
@@ -83,16 +62,35 @@ namespace pruebaN
                         {
                             f3.ShowDialog(this);
                         }
-
-                        //var tomHanks =
-                        // graphClient.Cypher
-                        //    .Match("(lan:Language)")
-                        //    .Return(lan => lan.As<Language>().name)
-                        //    .Results;
-                        //foreach (var person in tomHanks)
-                        //    MessageBox.Show("" + person);
                         break;
-                    case "Change a name":
+                    case "Change name":
+                        string languageName = Interaction.InputBox("Language name: ", "Change language name");
+                        //Validating the parent's existence.
+                        var selected = graphClient.Cypher
+                            .OptionalMatch("(lang:Language)")
+                            .Where("lang.name = {name}")
+                            .WithParam("name", languageName)
+                            .Return(lang => lang.As<Language>().name)
+                            .Results
+                            .Single();
+                        if (selected == null)
+                        {
+                            MessageBox.Show("Language does not exist");
+                        }
+                        else
+                        {
+                            string newName = Interaction.InputBox("New name: ", "Add new name");
+                            graphClient.Cypher
+                                .Match("(lang:Language {name: {oldName}})")
+                                .Set("lang.name = {newName}")
+                                .WithParams(new
+                                {
+                                    oldName = languageName,
+                                    newName = newName
+                                })
+                                .ExecuteWithoutResults();
+                            MessageBox.Show("The name has been changed.");
+                        }
                         break;
                 }
             }
@@ -100,13 +98,37 @@ namespace pruebaN
         
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            string languageName = Interaction.InputBox("Nombre del lenguaje: ", "Eliminar lenguaje de programación");
-            graphClient.Cypher
-                .OptionalMatch("(lan:Language)")
-                .Where("lan.name = {languageName}")
-                .WithParam("languageName", languageName)
-                .Delete("lan")
-                .ExecuteWithoutResults();
+            string languageName = Interaction.InputBox("Language name: ", "Delete programming language");
+
+            //Validating the parent's existence.
+            var selected = graphClient.Cypher
+                .OptionalMatch("(lang:Language)")
+                .Where("lang.name = {name}")
+                .WithParam("name", languageName)
+                .Return(lang => lang.As<Language>().name)
+                .Results
+                .Single();
+            if (selected == null)
+            {
+                MessageBox.Show("Language does not exist");
+            }
+            else
+            {
+                DialogResult dialogResult = MessageBox
+                    .Show("Are you sure you want to delete " + '"' + languageName + '"' + "?",
+                        "Deletion of a language",
+                        MessageBoxButtons.YesNo);
+
+                if (dialogResult == DialogResult.Yes)
+                {
+                    graphClient.Cypher
+                        .OptionalMatch("(lan:Language)")
+                        .Where("lan.name = {languageName}")
+                        .WithParam("languageName", languageName)
+                        .DetachDelete("lan")
+                        .ExecuteWithoutResults();
+                }
+            }
         }
     }
 
@@ -134,12 +156,4 @@ namespace pruebaN
             this.name = name;
         }
     }
-
-    public class Result
-    {
-        public Language lan;
-
-        public Language Language { get; internal set; }
-    }
-
 }

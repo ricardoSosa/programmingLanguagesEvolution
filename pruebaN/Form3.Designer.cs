@@ -32,7 +32,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.selectButton = new System.Windows.Forms.Button();
             this.parentsList = new System.Windows.Forms.ListBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.selectedLabel = new System.Windows.Forms.Label();
             this.addPButton = new System.Windows.Forms.Button();
             this.deletePButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -59,7 +59,7 @@
             // 
             this.selectButton.Location = new System.Drawing.Point(188, 69);
             this.selectButton.Name = "selectButton";
-            this.selectButton.Size = new System.Drawing.Size(85, 23);
+            this.selectButton.Size = new System.Drawing.Size(93, 23);
             this.selectButton.TabIndex = 2;
             this.selectButton.Text = "Select";
             this.selectButton.UseVisualStyleBackColor = true;
@@ -74,35 +74,36 @@
             this.parentsList.TabIndex = 3;
             this.parentsList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
-            // label2
+            // selectedLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(34, 116);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 18);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Parents:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            this.selectedLabel.AutoSize = true;
+            this.selectedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.selectedLabel.Location = new System.Drawing.Point(34, 116);
+            this.selectedLabel.Name = "selectedLabel";
+            this.selectedLabel.Size = new System.Drawing.Size(71, 18);
+            this.selectedLabel.TabIndex = 4;
+            this.selectedLabel.Text = "Parents:";
+            this.selectedLabel.Click += new System.EventHandler(this.label2_Click);
             // 
             // addPButton
             // 
             this.addPButton.Location = new System.Drawing.Point(188, 154);
             this.addPButton.Name = "addPButton";
-            this.addPButton.Size = new System.Drawing.Size(85, 23);
+            this.addPButton.Size = new System.Drawing.Size(93, 23);
             this.addPButton.TabIndex = 5;
-            this.addPButton.Text = "Add parent";
+            this.addPButton.Text = "Add new parent";
             this.addPButton.UseVisualStyleBackColor = true;
-            this.addPButton.Click += new System.EventHandler(this.deletePButton_Click);
+            this.addPButton.Click += new System.EventHandler(this.addPButton_Click);
             // 
             // deletePButton
             // 
             this.deletePButton.Location = new System.Drawing.Point(188, 194);
             this.deletePButton.Name = "deletePButton";
-            this.deletePButton.Size = new System.Drawing.Size(85, 23);
+            this.deletePButton.Size = new System.Drawing.Size(93, 23);
             this.deletePButton.TabIndex = 6;
             this.deletePButton.Text = "Delete parent";
             this.deletePButton.UseVisualStyleBackColor = true;
+            this.deletePButton.Click += new System.EventHandler(this.deletePButton_Click);
             // 
             // Form3
             // 
@@ -111,7 +112,7 @@
             this.ClientSize = new System.Drawing.Size(318, 261);
             this.Controls.Add(this.deletePButton);
             this.Controls.Add(this.addPButton);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.selectedLabel);
             this.Controls.Add(this.parentsList);
             this.Controls.Add(this.selectButton);
             this.Controls.Add(this.label1);
@@ -130,7 +131,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button selectButton;
         private System.Windows.Forms.ListBox parentsList;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label selectedLabel;
         private System.Windows.Forms.Button addPButton;
         private System.Windows.Forms.Button deletePButton;
     }
